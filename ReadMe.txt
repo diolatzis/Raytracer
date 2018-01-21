@@ -1,1 +1,0 @@
-The folder results contains the render (500x500 resolution) produced from the raytracer for 500 samples (approx. time 20 min)
