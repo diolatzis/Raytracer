@@ -4,3 +4,6 @@ A recursive raytrace developed from the ground up in c++ as part of the MSc Foun
 
 
 ![raster](https://user-images.githubusercontent.com/19236056/35196036-afbe7b5a-fec4-11e7-9a23-268f1b8b2f5a.png)
+
+![raster](https://user-images.githubusercontent.com/19236056/47022745-72536880-d15e-11e8-8bf9-f03f7c7a9541.png)
+
