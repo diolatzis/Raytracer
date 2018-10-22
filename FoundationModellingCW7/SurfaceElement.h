@@ -12,8 +12,6 @@ protected:
 
 	BSDF bsdf;
 
-	float m_extProb;
-
 public:
 
 	Radiance3 m_pow;
@@ -31,8 +29,6 @@ public:
 	virtual Vec3<float> getNormal(Vec3<float> P) = 0;
 
 	virtual Vec3<float> samplePoint() = 0;
-
-	float extProb() { return m_extProb; }
 };
 
 

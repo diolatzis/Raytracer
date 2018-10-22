@@ -5,8 +5,6 @@ Sphere::Sphere(const Vec3<float> & pos ,float rad, Colour3 colour, bool emits, b
 	m_pos = pos;
 	m_rad = rad;
 
-	m_extProb = 0.7f;
-
 	m_emits = emits;
 	m_reflectsDirect = reflectsDirect;
 	m_scattersImpulse = scattersImpulse;

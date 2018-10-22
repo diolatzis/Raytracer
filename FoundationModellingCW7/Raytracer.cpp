@@ -1,6 +1,7 @@
 #include "Raytracer.h"
 
 const int NUMBER_OF_SAMPLES = 500;
+const float EXIT_PROB = 0.3f;
 
 std::default_random_engine raytracerGenerator;
 std::uniform_real_distribution<double> raytracerDistribution(0.0, 1.0);
@@ -49,6 +50,10 @@ Radiance3 Raytracer::pathTrace(Scene& scene, const Ray3& ray, bool isEyeRay)
 
 	float dist;
 	SurfaceElement *surfel = NULL;
+
+	//Russian roulette
+	if (randomRange(0.0f, 1.0f) < EXIT_PROB)
+		return Radiance3(0, 0, 0);
 
 	if (scene.intersect(ray, surfel, dist))	//If there is an intersection
 	{
@@ -172,39 +177,24 @@ Radiance3 Raytracer::estimateDirectAreaLight(Scene& scene, SurfaceElement *surfe
 
 Radiance3 Raytracer::estimateImpulseScattering(Scene &scene, Vec3<float> P, SurfaceElement * surfel, Ray3 ray, bool isEyeRay)
 {
-	//If ray is extinguished
-	if (randomRange(0.0f, 1.0f) > surfel->extProb())
-		return Radiance3(0, 0, 0);
-	else
-	{
-		//Mirror reflection
-		Vec3<float> w_o = ray.m_dir;
+	//Mirror reflection
+	Vec3<float> w_o = ray.m_dir;
 
-		Vec3 <float> w_i = (w_o - (surfel->getNormal(P) * w_o.dotProduct(surfel->getNormal(P)) * 2)).getNormal();
+	Vec3 <float> w_i = (w_o - (surfel->getNormal(P) * w_o.dotProduct(surfel->getNormal(P)) * 2)).getNormal();
 
 		
-		Ray3 ray2(P+surfel->getNormal(P)*0.0001f, w_i);
+	Ray3 ray2(P+surfel->getNormal(P)*0.0001f, w_i);
 
-		return pathTrace(scene, ray2, false);
-	}
-
-	return Radiance3();
+	return pathTrace(scene, ray2, false);
 }
 
 Radiance3 Raytracer::estimateIndirectLight(Scene &scene, Vec3<float> P, SurfaceElement * surfel, Ray3 ray, bool isEyeRay)
-{
-	if (randomRange(0.0f,1.0f) > surfel->extProb())
-		return Radiance3(0, 0, 0);
-	else
-	{
-		//Create a random reflected ray
-		Vec3<float> bounceVector = randomVector(surfel->getNormal(P));
-		Ray3 bounceRay(P+surfel->getNormal(P)*0.0001f, bounceVector);
+{	
+	//Create a random reflected ray
+	Vec3<float> bounceVector = randomVector(surfel->getNormal(P));
+	Ray3 bounceRay(P+surfel->getNormal(P)*0.0001f, bounceVector);
 
-		return pathTrace(scene, bounceRay, false);	
-	}
-
-	return Radiance3();
+	return pathTrace(scene, bounceRay, false);
 }
 
 Vec3<float> Raytracer::randomVector(Vec3<float> n)

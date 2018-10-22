@@ -9,8 +9,6 @@ Triangle3::Triangle3(Vec3<float> vertices[3], Vec3<float> normals[3], Colour3 co
 	m_reflectsDirect = reflectsDirect;
 	m_scattersImpulse = scattersImpulse;
 
-	m_extProb = 0.7f;
-
 	m_vertices[0] = vertices[0];
 	m_vertices[1] = vertices[1];
 	m_vertices[2] = vertices[2];
@@ -76,10 +74,12 @@ Vec3<float> Triangle3::getNormal(Vec3<float> P)
 
 Vec3<float> Triangle3::samplePoint()
 {
-	double a = distribution(generator);
-	double b = distribution(generator);
+	double root = std::sqrt(distribution(generator));
+	double a = 1 - root;
+	double b = distribution(generator)*root;
+	double c = 1 - (a + b);
 
-	Vec3<float> random = m_vertices[0] + (m_vertices[1] - m_vertices[0])*a + (m_vertices[2] - m_vertices[0])*b;
+	Vec3<float> random = (m_vertices[0]*a) + (m_vertices[1]*b) + (m_vertices[2]*c);
 
 	return random;
 }

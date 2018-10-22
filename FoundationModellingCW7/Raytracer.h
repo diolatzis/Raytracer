@@ -1,7 +1,7 @@
 #ifndef RAYTRACER_H
 #define RAYTRACER_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "Ray3.h"
 #include "Triangle3.h"
 #include "Misc.h"

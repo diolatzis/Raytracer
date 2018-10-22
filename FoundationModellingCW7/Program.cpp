@@ -11,7 +11,9 @@ int main()
 
 	Image img(500, 500);
 
-	Sphere sphere = Sphere(Vec3<float>(0.6, 0.155, -1.35), 0.45, Colour3(1, 0, 0),false, true, true);
+	Sphere sphere1 = Sphere(Vec3<float>(0.6, 0.155, -1.35), 0.45, Colour3(1, 0, 0),false, true, true);
+
+	Sphere sphere2 = Sphere(Vec3<float>(-0.6, -0.1, -1.35), 0.2, Colour3(0, 1, 0), false, true, true);
 
 	//---- Vertical Wall ----//
 
@@ -87,19 +89,19 @@ int main()
 	triangleNorm7[1] = Vec3<float>(0, -1, 0).getNormal();
 	triangleNorm7[2] = Vec3<float>(0, -1, 0).getNormal();
 
-	Triangle3 ALT1(triangleVer7, triangleNorm7, Colour3(0.8, 0.8, 0.8), true, true, false, Radiance3(0.001,0.001,0.001));
+	Triangle3 ALT1(triangleVer7, triangleNorm7, Colour3(0.8, 0.8, 0.8), true, true, false, Radiance3(0.3,0.3,0.3));
 
 	Vec3<float> triangleVer8[3];
 	triangleVer8[0] = Vec3<float>(-0.6, 2, -1.8);
 	triangleVer8[1] = Vec3<float>(0.6, 2, -1);
-	triangleVer8[2] = Vec3<float>(0.6, 2, -1);
+	triangleVer8[2] = Vec3<float>(-0.6, 2, -1);
 
 	Vec3<float> triangleNorm8[3];
 	triangleNorm8[0] = Vec3<float>(0, -1, 0).getNormal();
 	triangleNorm8[1] = Vec3<float>(0, -1, 0).getNormal();
 	triangleNorm8[2] = Vec3<float>(0, -1, 0).getNormal();
 
-	Triangle3 ALT2(triangleVer8, triangleNorm8, Colour3(0.8, 0.8, 0.8), true, true, false, Radiance3(0.001, 0.001, 0.001));
+	Triangle3 ALT2(triangleVer8, triangleNorm8, Colour3(0.8, 0.8, 0.8), true, true, false, Radiance3(0.3, 0.3, 0.3));
 
 	//---- Lights ----//
 
@@ -112,10 +114,11 @@ int main()
 	scene.addSurfel(&VT2);
 	scene.addSurfel(&HT1);
 	scene.addSurfel(&HT2);
-	scene.addLight(&light);
+	//scene.addLight(&light);
 	scene.addAreaLight(&ALT1);
 	scene.addAreaLight(&ALT2);
-	scene.addSurfel(&sphere);
+	scene.addSurfel(&sphere1);
+	scene.addSurfel(&sphere2);
 
 	r.rayTrace(img, scene, camera, 0, img.getWidth(), 0, img.getHeight());
 
